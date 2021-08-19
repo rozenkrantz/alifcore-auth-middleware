@@ -1,4 +1,4 @@
-module alifcore-auth-middleware
+module github.com/dequinox/alifcore-auth-middleware
 
 go 1.16
 
