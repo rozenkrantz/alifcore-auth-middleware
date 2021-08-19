@@ -1,7 +1,7 @@
 package keys
 
 import (
-	"alifcore-auth-middleware/config"
+	"github.com/dequinox/alifcore-auth-middleware/config"
 
 	"crypto/rsa"
 	"crypto/x509"
