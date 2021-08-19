@@ -1,4 +1,4 @@
-package alifcore_auth_middleware
+package middleware
 
 import (
 	"crypto/rsa"
