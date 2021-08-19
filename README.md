@@ -49,3 +49,19 @@ Place .env file in the base of your project
 PUB_KEY_URI="http://alif-core-service-user.eu-central-1.elasticbeanstalk.com/service_user/auth/public_key"
 PUB_KEY_DATA="{\"service_name\": \"alif-shop-settings\"}"
 ```
+
+## Checking info
+3 values are passed from middleware:
+```go
+id       string
+username string
+roles    map[string]interface{}
+```
+Get values passed from middleware in handlers:
+```go
+func (t *handler) foobar(c *gin.Context) {
+    if id, ok := c.Get("id"); ok {
+        ...
+    }
+    ...
+```
