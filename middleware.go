@@ -1,9 +1,9 @@
 package alifcore_auth_middleware
 
 import (
-	"alifcore-auth-middleware/config"
-	"alifcore-auth-middleware/keys"
 	"crypto/rsa"
+	"github.com/dequinox/alifcore-auth-middleware/config"
+	"github.com/dequinox/alifcore-auth-middleware/keys"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
 	"gopkg.in/square/go-jose.v2/jwt"
