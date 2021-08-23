@@ -110,7 +110,7 @@ func Worker(w WorkerParams) {
 	url := w.Config.GetString("PUB_KEY_URI")
 	data := w.Config.GetString("PUB_KEY_DATA")
 
-	ticker := time.NewTicker(15 * time.Second)
+	ticker := time.NewTicker(24 * time.Hour)
 	quit := make(chan struct{})
 	go func() {
 		for {
