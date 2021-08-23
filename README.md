@@ -6,7 +6,7 @@ alifcore-auth-middleware is a package used to authenticate users from alif-servi
 Include the module in your fx.Options when running the app:
 ```go
 
-import "github.com/dequinox/alifcore-auth-middleware/middleware"
+import "github.com/dequinox/alifcore-auth-middleware"
 
 ...
 modules := fx.Options(
