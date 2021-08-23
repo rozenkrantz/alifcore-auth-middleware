@@ -2,8 +2,6 @@ package middleware
 
 import (
 	"crypto/rsa"
-	"github.com/dequinox/alifcore-auth-middleware/config"
-	"github.com/dequinox/alifcore-auth-middleware/keys"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
 	"gopkg.in/square/go-jose.v2/jwt"
@@ -13,8 +11,6 @@ import (
 )
 
 var Module = fx.Options(
-	config.Module,
-	keys.Module,
 	fx.Provide(NewMiddleware),
 )
 
