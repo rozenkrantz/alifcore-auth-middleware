@@ -1,21 +1,23 @@
 package keys
 
 import (
-	"github.com/dequinox/alifcore-auth-middleware/config"
-
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/json"
 	"encoding/pem"
 	"errors"
+	"log"
 	"net/http"
 	"strings"
+	"time"
 
+	"github.com/dequinox/alifcore-auth-middleware/config"
 	"go.uber.org/fx"
 )
 
 var Module = fx.Options(
 	fx.Provide(NewPublicKey),
+	fx.Invoke(Worker),
 )
 
 type Params struct {
@@ -43,6 +45,10 @@ func NewPublicKey(p Params) (*rsa.PublicKey, error) {
 	url := p.Config.GetString("PUB_KEY_URI")
 	data := p.Config.GetString("PUB_KEY_DATA")
 
+	return GetPublicKey(url, data)
+}
+
+func GetPublicKey(url, data string) (*rsa.PublicKey, error) {
 	req, err := http.NewRequest("POST", url, strings.NewReader(data))
 	if err != nil {
 		return nil, err
@@ -91,4 +97,35 @@ func NewPublicKey(p Params) (*rsa.PublicKey, error) {
 	}
 
 	return pubKey, nil
+}
+
+type WorkerParams struct {
+	fx.In
+	Config    config.Config
+	PublicKey *rsa.PublicKey
+}
+
+func Worker(w WorkerParams) {
+	var err error
+	url := w.Config.GetString("PUB_KEY_URI")
+	data := w.Config.GetString("PUB_KEY_DATA")
+
+	ticker := time.NewTicker(15 * time.Second)
+	quit := make(chan struct{})
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				w.PublicKey, err = GetPublicKey(url, data)
+				if err != nil {
+					log.Fatalf("unable to get public keys")
+				} else {
+					log.Println("public keys updated")
+				}
+			case <-quit:
+				ticker.Stop()
+				return
+			}
+		}
+	}()
 }
